@@ -50,6 +50,13 @@ function customize_image() {
     clamav-daemon \
     terminator \
     apt-transport-https \
+    snapd \
+    bash-completion \
+    htop \
+    openssh-server \
+    iputils-ping \
+    inetutils-traceroute \
+    wget \
     curl \
     vim \
     nano \
