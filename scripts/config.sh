@@ -39,6 +39,13 @@ export TARGET_PACKAGE_REMOVE="
 # Package customisation function.  Update this function to customize packages
 # present on the installed system.
 function customize_image() {
+    # remove casper autologin
+#    if [ ! -e /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init.orig ]; then
+#        cp /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init.orig
+#        cat /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init.orig | sed 's/if \[ -n "\$USERNAME" \]; then/if \[ -n "" \]; then/' > /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init
+        #update-initramfs -u
+#    fi
+
     # install graphics and desktop
     apt-get install -y \
     plymouth-theme-ubuntu-logo \
@@ -56,11 +63,27 @@ function customize_image() {
     openssh-server \
     iputils-ping \
     inetutils-traceroute \
+    tasksel \
     wget \
     curl \
     vim \
     nano \
     less
+
+#    tasksel
+    apt update
+    dpkg-reconfigure tzdata
+
+    # Prompt user for a username
+    read -p "Enter the username want to create: " username
+    # Check if the user exists
+    if id "$username" &>/dev/null; then
+        echo "User $username already exists."
+    else
+        echo "User $username does not exist. Creating user and adding to sudo group..."
+        adduser "$username"
+        usermod -aG sudo "$username"
+    fi
 
     # purge
     apt-get purge -y \
