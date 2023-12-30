@@ -64,6 +64,9 @@ function customize_image() {
     iputils-ping \
     inetutils-traceroute \
     tasksel \
+    pavucontrol \
+    dhcpcd5 \
+    ibus-unikey \
     wget \
     curl \
     vim \
